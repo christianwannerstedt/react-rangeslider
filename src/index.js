@@ -56,11 +56,20 @@ class Slider extends Component {
   	let { orientation } = this.props;
   	let dimension = capitalize(constants.orientation[orientation].dimension);
   	const sliderPos = findDOMNode(this.refs.slider)['offset' + dimension];
-  	const handlePos = findDOMNode(this.refs.handle)['offset' + dimension]
+  	const handlePos = findDOMNode(this.refs.handle)['offset' + dimension];
   	this.setState({
   		limit: sliderPos - handlePos,
   		grab: handlePos / 2,
   	});
+
+    window.addEventListener('resize', (e) => {
+      let sPos = findDOMNode(this.refs.slider)['offset' + dimension];
+      let hPos = findDOMNode(this.refs.handle)['offset' + dimension];
+      this.setState({
+        limit: sPos - hPos,
+        grab: hPos / 2,
+      });
+    });
   }
 
   handleSliderMouseDown = (e) => {
